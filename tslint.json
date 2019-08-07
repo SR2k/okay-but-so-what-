@@ -1,0 +1,11 @@
+{
+  "rulesDirectory": ["node_modules/tslint-microsoft-contrib"],
+  "extends": ["tslint-microsoft-contrib/latest"],
+  "rules": {
+    "semicolon": [true, "never"],
+    "no-relative-imports": false,
+    "import-name": false,
+    "file-name-casing": [true, "kebab-case"],
+    "class-name": true
+  }
+}
