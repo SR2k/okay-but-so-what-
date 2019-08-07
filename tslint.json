@@ -6,6 +6,9 @@
     "no-relative-imports": false,
     "import-name": false,
     "file-name-casing": [true, "kebab-case"],
-    "class-name": true
+    "class-name": true,
+    "function-name": [true, {
+      "static-method-regex": "^[a-z]([A-Z0-9]*[a-z][a-z0-9]*[A-Z]|[a-z0-9]*[A-Z][A-Z0-9]*[a-z])[A-Za-z0-9]*$"
+    }]
   }
 }
