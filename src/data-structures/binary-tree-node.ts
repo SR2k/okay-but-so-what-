@@ -58,7 +58,7 @@ export class BinaryTreeNode<T> {
    * 深度优先 - 中序遍历
    * @param fn 对每个节点的操作
    */
-  dfsMidOrder<X>(fn: treeNodeTraverseFunc<T, X>): X[] {
+  dfsInOrder<X>(fn: treeNodeTraverseFunc<T, X>): X[] {
     let p: BinaryTreeNode<T> = this
 
     const result = []
