@@ -1,8 +1,9 @@
 #!/usr/bin/env node
-
 // tslint:disable non-literal-require
 import { resolve } from 'path'
 import { readdirSync, writeFileSync, copyFileSync } from 'fs'
+// @ts-ignore
+import * as getConf from 'mirror-config-china/lib/config'
 
 type PathDictionary = { [key: string]: string }
 interface IFileConfig {
@@ -29,6 +30,7 @@ const configFiles = readdirSync(paths.fileConfigsDir)
   .filter(fileName => /\.json$/.test(fileName))
 const packageJsonConfigs: any = {}
 const fileConfigs: FileConfigDictionary = {}
+const npmConfig = getConf(['--registry=https://registry.npm.taobao.org'])
 packageJsonConfigEntries.forEach(file => {
   packageJsonConfigs[file.replace(/\.json$/, '')] = require(resolve(paths.packageJsonConfigDir, file))
 })
@@ -46,7 +48,7 @@ try {
       ...val,
     }
   }
-  writeFileSync(resolve(paths.packageJson), JSON.stringify(packageJson, null, 2))
+  writeFileSync(paths.packageJson, JSON.stringify(packageJson, null, 2))
   console.log('😀 Done.\n')
 
   // copy config files
@@ -58,6 +60,15 @@ try {
     )
     console.log(`⏳ Done with ${key}`)
   }
+  console.log('😀 Done.\n')
+
+  // NPM mirrors for China
+  console.log('🕒 Generating npmrc...')
+  let npmrc = ''
+  for (const [key, val] of Object.entries(npmConfig)) {
+    npmrc += `${key}=${val}\n`
+  }
+  writeFileSync(resolve(paths.pwd, '.npmrc'), npmrc)
   console.log('😀 Done.\n')
 } catch(e) {
   console.log(`❌ An unhandled exception occurred: ${e.message}`)

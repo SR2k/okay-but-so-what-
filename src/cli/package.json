@@ -1,6 +1,6 @@
 {
   "name": "@sr2k/cli",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "The CLI for init projects of my own use",
   "repository": {
     "type": "git",
@@ -20,5 +20,8 @@
   },
   "scripts": {
     "publish": "npm publish --access=public --registry=https://registry.npmjs.org/"
+  },
+  "dependencies": {
+    "mirror-config-china": "^2.5.1"
   }
 }
