@@ -1,6 +1,6 @@
 {
   "name": "@sr2k/cli",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "The CLI for init projects of my own use",
   "repository": {
     "type": "git",

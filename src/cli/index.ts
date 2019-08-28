@@ -1,8 +1,15 @@
+#!/usr/bin/env node
+
 // tslint:disable non-literal-require
 import { resolve } from 'path'
 import { readdirSync, writeFileSync, copyFileSync } from 'fs'
 
 type PathDictionary = { [key: string]: string }
+interface IFileConfig {
+  content: string
+  filename: string
+}
+type FileConfigDictionary = { [key: string]: IFileConfig }
 
 let paths: PathDictionary = {
   pwd: process.cwd(),
@@ -19,27 +26,39 @@ paths = {
 const packageJsonConfigEntries = readdirSync(paths.packageJsonConfigDir)
   .filter(fileName => /\.json$/.test(fileName))
 const configFiles = readdirSync(paths.fileConfigsDir)
-const configs: any = {}
+  .filter(fileName => /\.json$/.test(fileName))
+const packageJsonConfigs: any = {}
+const fileConfigs: FileConfigDictionary = {}
 packageJsonConfigEntries.forEach(file => {
-  configs[file.replace(/\.json$/, '')] = require(resolve(paths.packageJsonConfigDir, file))
+  packageJsonConfigs[file.replace(/\.json$/, '')] = require(resolve(paths.packageJsonConfigDir, file))
+})
+configFiles.forEach(file => {
+  fileConfigs[file.replace(/\.json$/, '')] = require(resolve(paths.fileConfigsDir, file))
 })
 
 try {
   // update package.json
+  console.log('🕒 Generating package.json...')
   const packageJson = require(paths.packageJson)
-  for (const [key, val] of Object.entries(configs)) {
+  for (const [key, val] of Object.entries(packageJsonConfigs)) {
     packageJson[key] = {
       ...(packageJson[key] || {}),
       ...val,
     }
   }
   writeFileSync(resolve(paths.packageJson), JSON.stringify(packageJson, null, 2))
+  console.log('😀 Done.\n')
 
   // copy config files
-  configFiles.forEach(configFile => copyFileSync(
-    resolve(paths.fileConfigsDir, configFile),
-    resolve(paths.pwd, configFile),
-  ))
+  console.log('🕒 Generating config files...')
+  for (const [key, { filename, content }] of Object.entries(fileConfigs)) {
+    copyFileSync(
+      resolve(paths.fileConfigsDir, content),
+      resolve(paths.pwd, filename),
+    )
+    console.log(`⏳ Done with ${key}`)
+  }
+  console.log('😀 Done.\n')
 } catch(e) {
-  console.log(e.message)
+  console.log(`❌ An unhandled exception occurred: ${e.message}`)
 }
