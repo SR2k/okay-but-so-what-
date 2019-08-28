@@ -1,0 +1,10 @@
+{
+  "./src/**/*.scss": [
+    "stylelint --syntax=scss",
+    "git add"
+  ],
+  "./src/**/*.{j|t}s[x]": [
+    "eslint",
+    "git add"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "name": "@sr2k/cli",
+  "version": "0.0.2",
+  "description": "The CLI for init projects of my own use",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/SR2k/okay-but-so-what-.git"
+  },
+  "author": "Siyuan Cao",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SR2k/okay-but-so-what-/issues"
+  },
+  "homepage": "https://github.com/SR2k/okay-but-so-what-#readme",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "bin": {
+    "sr2k": "index.js"
+  },
+  "scripts": {
+    "publish": "npm publish --access=public --registry=https://registry.npmjs.org/"
+  }
+}
