@@ -1,6 +1,6 @@
 import getConf = require('mirror-config-china/lib/config')
-import { writeFile } from "fs-extra"
-import { resolve } from "path"
+import { writeFile } from 'fs-extra'
+import { resolve } from 'path'
 import paths from './paths'
 
 /**

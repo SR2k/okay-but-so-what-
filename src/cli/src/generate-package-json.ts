@@ -1,5 +1,5 @@
 import { readdir, readJson, writeJson } from 'fs-extra'
-import { resolve } from "path"
+import { resolve } from 'path'
 import paths from './paths'
 
 /**

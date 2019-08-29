@@ -6,8 +6,12 @@ interface IFileConfig {
   content: string
   filename: string
 }
+
 type FileConfigDictionary = { [key: string]: IFileConfig }
 
+/**
+ * Generate (copy) config files
+ */
 const generateConfigFiles = async () => {
   const configFiles = (await readdir(paths.fileConfigsDir))
     .filter(fileName => /\.json$/.test(fileName))
@@ -16,7 +20,7 @@ const generateConfigFiles = async () => {
     fileConfigs[file.replace(/\.json$/, '')] = await readJson(resolve(paths.fileConfigsDir, file))
   }
 
-// copy config files
+  // copy config files
   console.log('🕒 Generating config files...')
   for (const [key, {filename, content}] of Object.entries(fileConfigs)) {
     await copyFile(
