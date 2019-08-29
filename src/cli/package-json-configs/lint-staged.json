@@ -3,7 +3,7 @@
     "stylelint --syntax=scss",
     "git add"
   ],
-  "./src/**/*.{j|t}s[x]": [
+  "./src/**/*.js[x]": [
     "eslint",
     "git add"
   ]
