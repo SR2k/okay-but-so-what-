@@ -29,8 +29,20 @@
 </head>
 <body>
 
+<nav>
+  <div class="container">
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo">YABD</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="#cubicBezier">CSS Easing Function</a></li>
+        <li><a href="#bezier">General Bezier Curse</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
 <div class="container row" id="cubicBezier">
-  <div class="padding col s12">
+  <div class="col s12">
     <pre class="code">cubic-bezier({{a.x}}, {{a.y}}, {{b.x}}, {{b.y}})</pre>
   </div>
   <div class="col s12 m6">
@@ -77,7 +89,7 @@
 </div>
 
 <div class="container row" id="bezier">
-  <div class="padding col s12">
+  <div class="col s12">
     <pre class="code">A {{ dots.length }} times bezier curse</pre>
   </div>
 
@@ -122,6 +134,18 @@
 <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
 <script src="https://cdn.bootcss.com/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
 <script src="./bezier.js"></script>
+
+<footer class="page-footer">
+  <div class="container">
+    <h5 class="white-text">Yet another bezier demo</h5>
+    <p class="grey-text text-lighten-4">By SR2k</p>
+  </div>
+  <div class="footer-copyright">
+    <div class="container">
+      &copy; Siyuan Cao
+    </div>
+  </div>
+</footer>
 
 </body>
 </html>
