@@ -29,7 +29,7 @@
 </head>
 <body>
 
-<div class="container row" id="bezier">
+<div class="container row" id="cubicBezier">
   <div class="padding col s12">
     <pre class="code">cubic-bezier({{a.x}}, {{a.y}}, {{b.x}}, {{b.y}})</pre>
   </div>
@@ -71,6 +71,49 @@
         <input id="precision" type="number" min="50" max="1000" v-model="precision" step="10">
         <label for="precision">Precision</label>
         <span class="helper-text">Dots on the curse</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container row" id="bezier">
+  <div class="padding col s12">
+    <pre class="code">A {{ dots.length }} times bezier curse</pre>
+  </div>
+
+  <div class="col s12 m6">
+    <svg viewBox="0 0 110 110" version="1.1" xmlns="http://www.w3.org/2000/svg" style="background: lightgray">
+      <rect x="5" y="5" width="100" height="100" fill="#333" />
+      <line :x1="5 + dot.x * 100" :y1="105 - dot.y * 100" :x2="5 + dots[index].x * 100" :y2="105 - dots[index].y * 100" stroke="gray" stroke-width="0.4" v-for="(dot, index) in dots.slice(1)" />
+      <circle :cx="5 + dot.x * 100" :cy="105 - dot.y * 100" r="1" class="control-point" v-for="(dot, index) in dots" @mousedown="startMove(index, $event)" @touchstart.prevent="startMove" />
+      <circle class="point" :cx="5 + point.x * 100" :cy="105 - point.y * 100" r="0.2" v-for="point in points" />
+    </svg>
+  </div>
+  <div class="col s12 m6">
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="precision2" type="number" min="50" max="1000" v-model="precision" step="10">
+        <label for="precision2">Precision</label>
+        <span class="helper-text">Dots on the curse</span>
+      </div>
+    </div>
+
+    <div class="row" v-for="(dot, index) in dots">
+      <div class="input-field col s5">
+        <input :placeholder="`Point ${index} x`" :id="`point${index}X`" type="number" v-model.number="dot.x" min="0" max="1" step="0.001" />
+        <label for="pointBX">Dot {{index}}</label>
+      </div>
+      <div class="input-field col s5">
+        <input type="number" v-model.number="dot.y" :placeholder="`Point ${index} y`" min="0" max="1" step="0.001" />
+      </div>
+      <div class="col s2">
+        <button class="waves-effect waves-light btn red" @click="removeDot(index)" :disabled="dots.length <= 1">&times;</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="s3">
+        <button class="waves-effect waves-light btn" @click="addDot">Add dot</button>
       </div>
     </div>
   </div>
