@@ -5,7 +5,10 @@
     "sourceMap": true,
     "target": "es2018",
     "watch": true,
-    "lib": ["es2018"]
+    "lib": [
+      "es2018",
+      "dom"
+    ]
   },
   "include": [
     "src/**/*"
