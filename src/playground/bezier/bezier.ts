@@ -15,39 +15,55 @@ declare class Vue {
   constructor(options: VueOptions)
 }
 
-const split = (t: number, x: number, y: number) => {
-  return x + (y - x) * t
-}
+/**
+ * Split line by given ratio and line
+ * @param t Current ratio
+ * @param x1 Starting point x
+ * @param y1 Starting point y
+ * @param x2 Ending point x
+ * @param y2 Ending point y
+ */
+const splitLine = (t: number, { x: x1, y: y1 }: Point, { x: x2, y: y2 }: Point): Point => ({
+  x: t * (x2 - x1) + x1,
+  y: t * (y2 - y1) + y1,
+})
 
-const bezier = (t: number, points: Point[]): Point => {
+/**
+ * Calculate one point by given ratio and control points
+ * @param t Current ratio
+ * @param points Control points
+ */
+const getBezierPoint = (t: number, points: Point[]): Point => {
   if (points.length < 1) throw new TypeError('Bezier need at least 1 point')
   if (points.length === 1) return {
     x: points[0].x,
     y: points[0].y,
   }
-  if (points.length === 2) return {
-    x: split(t, points[0].x, points[1].x),
-    y: split(t, points[0].y, points[1].y),
-  }
+  if (points.length === 2) return splitLine(t, points[0], points[1])
 
   const newPoints = []
   for (let i = 1; i < points.length; i++) {
-    newPoints.push({
-      x: split(t, points[i - 1].x, points[i].x),
-      y: split(t, points[i - 1].y, points[i].y),
-    })
+    newPoints.push(splitLine(t, points[i - 1], points[i]))
   }
-  return bezier(t, newPoints)
+  return getBezierPoint(t, newPoints)
 }
 
-const getBezier = (precision: number, ...points: Point[]) => {
+/**
+ * Generate bezier curse
+ * @param precision How many points there will be on the generated curse
+ * @param points Control points
+ */
+const getBezierCurse = (precision: number, ...points: Point[]) => {
   const results = []
   for (let t = 0; t <= 1; t += 1 / precision) {
-    results.push(bezier(t, points))
+    results.push(getBezierPoint(t, points))
   }
   return results
 }
 
+/**
+ * Normalize number
+ */
 const limit = (x: number) => {
   if (x >= 1) return 1
   if (x <= 0) return 0
@@ -116,7 +132,7 @@ new Vue({
   },
   computed: {
     points() {
-      return getBezier(
+      return getBezierCurse(
         this.precision,
         {
           x: 0,
@@ -160,7 +176,7 @@ new Vue({
   },
   computed: {
     points() {
-      return getBezier(this.precision, ...this.dots)
+      return getBezierCurse(this.precision, ...this.dots)
     },
   },
   methods: {
